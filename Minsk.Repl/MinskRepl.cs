@@ -23,7 +23,7 @@ namespace Minsk
 
             var syntaxTree = SyntaxTree.Parse(text);
 
-            if (syntaxTree.Diagnostics.Any())
+            if (syntaxTree.Root.Statement.GetLastToken().IsMissing)
             {
                 return false;
             }
@@ -120,12 +120,21 @@ namespace Minsk
             {
                 var isKeyword = token.Kind.ToString().EndsWith("Keyword");
                 var isNumber = SyntaxKind.NumberToken == token.Kind;
+                var isIdentifier = SyntaxKind.IdentifierToken == token.Kind;
 
                 if (isKeyword)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                 }
-                else if (!isNumber)
+                else if (isIdentifier)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                }
+                else if (isNumber)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                }
+                else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                 }

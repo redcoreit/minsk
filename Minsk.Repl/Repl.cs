@@ -217,7 +217,17 @@ namespace Minsk
             var line = document[lineIndex];
             var start = view.CurrentCharacterIndex;
             if (start >= line.Length)
+            {
+                if (view.CurrentLineIndex == document.Count - 1)
+                {
+                    return;
+                }
+
+                var nextLineIndex = document[view.CurrentLineIndex + 1];
+                document[view.CurrentLineIndex] += nextLineIndex;
+                document.RemoveAt(view.CurrentLineIndex + 1);
                 return;
+            }
 
             var before = line.Substring(0, start);
             var after = line.Substring(start + 1);
@@ -229,7 +239,7 @@ namespace Minsk
             var start = view.CurrentCharacterIndex;
             if (start == 0)
             {
-                if(view.CurrentLineIndex == 0)
+                if (view.CurrentLineIndex == 0)
                 {
                     return;
                 }
@@ -327,6 +337,11 @@ namespace Minsk
 
         private void UpdateDocumentHistory(ObservableCollection<string> document, SubmissionView view)
         {
+            if (_submissionHistory.Count == 0)
+            {
+                return;
+            }
+
             document.Clear();
             var historyItem = _submissionHistory[_submissionHistoryIndex];
             var lines = historyItem.Split(Environment.NewLine);

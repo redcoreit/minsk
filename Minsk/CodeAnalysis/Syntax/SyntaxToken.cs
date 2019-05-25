@@ -26,6 +26,8 @@ namespace Minsk.CodeAnalysis.Syntax
 
         public override TextSpan Span { get; }
 
+        public bool IsMissing => Text is null;
+
         public override IEnumerable<SyntaxNode> GetChildren() => Enumerable.Empty<SyntaxNode>();
     }
 }
