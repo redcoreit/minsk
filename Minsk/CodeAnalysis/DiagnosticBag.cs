@@ -65,6 +65,11 @@ namespace Minsk.CodeAnalysis
             Report(span, $"Variable '{name}' is read-only and cannot be assigned to.");
         }
 
+        public void ReportUnterminatedString(TextSpan span)
+        {
+            Report(span, $"Unterminated string literal.");
+        }
+
         public void AddRange(IEnumerable<Diagnostic> values) => _diagnostics.AddRange(values);
 
         public IEnumerator<Diagnostic> GetEnumerator() => _diagnostics.GetEnumerator();

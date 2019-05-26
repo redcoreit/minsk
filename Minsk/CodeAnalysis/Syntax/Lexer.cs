@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Text;
 using Minsk.CodeAnalysis.Text;
 
 namespace Minsk.CodeAnalysis.Syntax
@@ -153,7 +155,7 @@ namespace Minsk.CodeAnalysis.Syntax
                     }
                 case '<':
                     {
-                        if(LookAhead == '=')
+                        if (LookAhead == '=')
                         {
                             MoveNext(2);
                             _kind = SyntaxKind.LessOrEqualsToken;
@@ -167,7 +169,7 @@ namespace Minsk.CodeAnalysis.Syntax
                     }
                 case '>':
                     {
-                        if(LookAhead == '=')
+                        if (LookAhead == '=')
                         {
                             MoveNext(2);
                             _kind = SyntaxKind.GreaterOrEqualsToken;
@@ -177,6 +179,11 @@ namespace Minsk.CodeAnalysis.Syntax
                             MoveNext();
                             _kind = SyntaxKind.GreaterToken;
                         }
+                        break;
+                    }
+                case '"':
+                    {
+                        ReadString();
                         break;
                     }
                 case '0':
@@ -264,6 +271,53 @@ namespace Minsk.CodeAnalysis.Syntax
                 while (char.IsWhiteSpace(Current));
 
                 _kind = SyntaxKind.WhiteSpaceToken;
+            }
+
+            void ReadString()
+            {
+                MoveNext();
+
+                var done = false;
+                var builder = new StringBuilder();
+
+                while (!done)
+                {
+                    switch (Current)
+                    {
+                        case '\0':
+                        case '\r':
+                        case '\n':
+                            var span = new TextSpan(_start, 1);
+                            Diagnostics.ReportUnterminatedString(span);
+                            done = true;
+                            break;
+                        case '\\':
+                            {
+                                if (LookAhead == '"')
+                                {
+                                    MoveNext();
+                                }
+                                builder.Append(Current);
+                                MoveNext();
+                                break;
+                            }
+                        case '"':
+                            {
+                                done = true;
+                                MoveNext();
+                                break;
+                            }
+                        default:
+                            {
+                                builder.Append(Current);
+                                MoveNext();
+                                break;
+                            }
+                    }
+                }
+
+                _kind = SyntaxKind.StringToken;
+                _value = builder.ToString();
             }
         }
 

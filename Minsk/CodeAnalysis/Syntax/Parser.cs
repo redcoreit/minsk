@@ -225,6 +225,8 @@ namespace Minsk.CodeAnalysis.Syntax
                     return ParseBooleanLiteral();
                 case SyntaxKind.NumberToken:
                     return ParseNumberExpression();
+                case SyntaxKind.StringToken:
+                    return ParseStringExpression();
                 case SyntaxKind.IdentifierToken:
                 default:
                     return PareseNameExpression();
@@ -257,6 +259,12 @@ namespace Minsk.CodeAnalysis.Syntax
         {
             var numberToken = ExpectToken(SyntaxKind.NumberToken);
             return new LiteralExpressionSyntax(numberToken);
+        }
+
+        private ExpressionSyntax ParseStringExpression()
+        {
+            var stringToken = ExpectToken(SyntaxKind.StringToken);
+            return new LiteralExpressionSyntax(stringToken);
         }
 
         private SyntaxToken Peek(int offset)
