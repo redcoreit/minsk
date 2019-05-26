@@ -21,6 +21,17 @@ namespace Minsk
                 return true;
             }
 
+            var isLastTwoLineBlank = text.Split(Environment.NewLine)
+                                         .Reverse()
+                                         .TakeWhile(m => string.IsNullOrWhiteSpace(m))
+                                         .Take(2)
+                                         .Count() == 2;
+
+            if(isLastTwoLineBlank)
+            {
+                return true;
+            }
+
             var syntaxTree = SyntaxTree.Parse(text);
 
             if (syntaxTree.Root.Statement.GetLastToken().IsMissing)

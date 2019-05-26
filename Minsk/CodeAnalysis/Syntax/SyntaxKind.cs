@@ -30,6 +30,7 @@ namespace Minsk.CodeAnalysis.Syntax
         LessToken,
         GreaterToken,
         GreaterOrEqualsToken,
+        StringToken,
 
 
         // Keywords
@@ -41,6 +42,7 @@ namespace Minsk.CodeAnalysis.Syntax
         ElseKeyword,
         WhileKeyword,
         ForKeyword,
+        ToKeyword,
 
         // Expressions
         LiteralExpression,
@@ -61,6 +63,5 @@ namespace Minsk.CodeAnalysis.Syntax
         IfStatement,
         WhileStatement,
         ForStatement,
-        ToKeyword,
     }
 }

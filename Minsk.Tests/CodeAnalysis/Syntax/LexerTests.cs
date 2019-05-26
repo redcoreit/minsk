@@ -10,6 +10,23 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
     public class LexerTests
     {
         [Fact]
+        public void Lexer_lexes_unterminated_string()
+        {
+            const string Text = "\"text";
+            var tokens = SyntaxTree.ParseTokens(Text, out var diagnostics);
+
+            var token = Assert.Single(tokens);
+            Assert.Equal(SyntaxKind.StringToken, token.Kind);
+            Assert.Equal(Text, token.Text);
+
+            var diagnostic = Assert.Single(diagnostics);
+            Assert.Equal(0, diagnostic.Span.Start);
+            Assert.Equal(1, diagnostic.Span.Length);
+            Assert.Equal("Unterminated string literal.", diagnostic.Message);
+        }
+
+
+        [Fact]
         public void Lexer_lexes_all_tokens()
         {
             var tokenKinds = Enum.GetValues(typeof(SyntaxKind))
@@ -114,6 +131,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
                 (SyntaxKind.IdentifierToken, "abc"),
                 (SyntaxKind.NumberToken,"1"),
                 (SyntaxKind.NumberToken,"123"),
+                (SyntaxKind.StringToken,"\"asd\""),
             };
 
             return Enumerable.Concat(staticTokens, dynamicTokens);
@@ -181,6 +199,9 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
                 return true;
 
             if (t1Kind == SyntaxKind.NumberToken && t2Kind == SyntaxKind.NumberToken)
+                return true;
+
+            if (t1Kind == SyntaxKind.StringToken && t2Kind == SyntaxKind.StringToken)
                 return true;
 
             if (t1Kind == SyntaxKind.BangToken && t2Kind == SyntaxKind.EqualsToken)

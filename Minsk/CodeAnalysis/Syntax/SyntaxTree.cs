@@ -32,22 +32,39 @@ namespace Minsk.CodeAnalysis.Syntax
 
         public static IEnumerable<SyntaxToken> ParseTokens(string text)
         {
-            var sourceText = SourceText.From(text);
-            return ParseTokens(sourceText);
+            return ParseTokens(text, out _);
         }
 
         public static IEnumerable<SyntaxToken> ParseTokens(SourceText text)
         {
-            var lexer = new Lexer(text);
-            while (true)
-            {
-                var token = lexer.Lex();
-                if (token.Kind == SyntaxKind.EndOfFileToken)
-                {
-                    break;
-                }
+            return ParseTokens(text, out _);
 
-                yield return token;
+        }
+        public static ImmutableArray<SyntaxToken> ParseTokens(string text, out ImmutableArray<Diagnostic> diagnostics)
+        {
+            return ParseTokens(SourceText.From(text), out diagnostics);
+        }
+
+        public static ImmutableArray<SyntaxToken> ParseTokens(SourceText text, out ImmutableArray<Diagnostic> diagnostics)
+        {
+            var lexer = new Lexer(text);
+
+            var result = Yielder().ToImmutableArray();
+            diagnostics = lexer.Diagnostics.ToImmutableArray();
+            return result;
+
+            IEnumerable<SyntaxToken> Yielder()
+            {
+                while (true)
+                {
+                    var token = lexer.Lex();
+                    if (token.Kind == SyntaxKind.EndOfFileToken)
+                    {
+                        break;
+                    }
+
+                    yield return token;
+                }
             }
         }
     }
