@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Minsk.CodeAnalysis.Symbols;
 using Minsk.CodeAnalysis.Syntax;
 using Minsk.CodeAnalysis.Text;
 
@@ -20,7 +21,7 @@ namespace Minsk.CodeAnalysis
             _diagnostics = new List<Diagnostic>(bag);
         }
 
-        public void ReportInvalidNumber(TextSpan span, string text, Type type)
+        public void ReportInvalidNumber(TextSpan span, string text, TypeSymbol type)
         {
             Report(span, $"The number {text} isn't a valid {type.Name}.");
         }
@@ -35,12 +36,12 @@ namespace Minsk.CodeAnalysis
             Report(span,  $"Unexpected token <{currentKind}>, expected token <{expectedKind}>.");
         }
 
-        public void ReportUndefinedUnaryOperator(TextSpan span, string operatorText, Type operandType)
+        public void ReportUndefinedUnaryOperator(TextSpan span, string operatorText, TypeSymbol operandType)
         {
             Report(span, $"Unary operator '{operatorText}' not defined for type '{operandType.Name}'.");
         }
 
-        public void ReportUndefinedBinaryOperator(TextSpan span, string operatorText, Type leftOperandType, Type rightOperandType)
+        public void ReportUndefinedBinaryOperator(TextSpan span, string operatorText, TypeSymbol leftOperandType, TypeSymbol rightOperandType)
         {
             Report(span, $"Binary operator '{operatorText}' not defined for types '{leftOperandType.Name}' and '{rightOperandType.Name}'.");
         }
@@ -55,7 +56,7 @@ namespace Minsk.CodeAnalysis
             Report(span, $"Variable '{name}' is already declared.");
         }
 
-        public void ReportCannotConvert(TextSpan span, Type fromType, Type toType)
+        public void ReportCannotConvert(TextSpan span, TypeSymbol fromType, TypeSymbol toType)
         {
             Report(span, $"Type conversion failed from '{fromType.Name}' to '{toType.Name}'.");
         }

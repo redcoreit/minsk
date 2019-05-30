@@ -11,7 +11,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
             Expression = expression;
         }
 
-        public override Type Type => Expression.Type;
+        public override TypeSymbol Type => Expression.Type;
         public override BoundNodeKind Kind => BoundNodeKind.AssignmentExpression;
         public VariableSymbol Variable { get; }
         public BoundExpression Expression { get; }

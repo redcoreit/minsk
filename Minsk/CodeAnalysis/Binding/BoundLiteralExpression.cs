@@ -1,4 +1,5 @@
 using System;
+using Minsk.CodeAnalysis.Symbols;
 
 namespace Minsk.CodeAnalysis.Syntax.Binding
 {
@@ -9,7 +10,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
             Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public override Type Type => Value.GetType();
+        public override TypeSymbol Type => TypeSymbol.FromClrType(Value);
         public override BoundNodeKind Kind => BoundNodeKind.LiteralExpression;
         public object Value { get; }
     }

@@ -1,4 +1,5 @@
 using System;
+using Minsk.CodeAnalysis.Symbols;
 
 namespace Minsk.CodeAnalysis.Syntax.Binding
 {
@@ -8,6 +9,6 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
         {
         }
 
-        public abstract Type Type { get; }
+        public abstract TypeSymbol Type { get; }
     }
 }

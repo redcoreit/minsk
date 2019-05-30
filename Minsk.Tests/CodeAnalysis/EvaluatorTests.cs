@@ -171,7 +171,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
             ";
 
             var diagnostics = @"
-                Type conversion failed from 'Boolean' to 'Int32'.
+                Type conversion failed from 'bool' to 'int'.
              ";
 
             AssertDiagnostics(text, diagnostics);
@@ -189,7 +189,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
             ";
 
             var diagnostics = @"
-                Type conversion failed from 'Int32' to 'Boolean'.
+                Type conversion failed from 'int' to 'bool'.
              ";
 
             AssertDiagnostics(text, diagnostics);
@@ -207,7 +207,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
             ";
 
             var diagnostics = @"
-                Type conversion failed from 'Int32' to 'Boolean'.
+                Type conversion failed from 'int' to 'bool'.
              ";
 
             AssertDiagnostics(text, diagnostics);
@@ -225,7 +225,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
             ";
 
             var diagnostics = @"
-                Type conversion failed from 'Boolean' to 'Int32'.
+                Type conversion failed from 'bool' to 'int'.
              ";
 
             AssertDiagnostics(text, diagnostics);
@@ -243,7 +243,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
             ";
 
             var diagnostics = @"
-                Type conversion failed from 'Boolean' to 'Int32'.
+                Type conversion failed from 'bool' to 'int'.
              ";
 
             AssertDiagnostics(text, diagnostics);
@@ -255,7 +255,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
             var text = @"[+]true";
 
             var diagnostics = @"
-                Unary operator '+' not defined for type 'Boolean'.
+                Unary operator '+' not defined for type 'bool'.
              ";
 
             AssertDiagnostics(text, diagnostics);
@@ -267,7 +267,7 @@ namespace Minsk.Tests.CodeAnalysis.Syntax
             var text = @"false [+] 1";
 
             var diagnostics = @"
-                Binary operator '+' not defined for types 'Boolean' and 'Int32'.
+                Binary operator '+' not defined for types 'bool' and 'int'.
              ";
 
             AssertDiagnostics(text, diagnostics);
