@@ -15,6 +15,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
         ForStatement,
         GotoStatement,
         LabelStatement,
-        ConditionalGotoStatement
+        ConditionalGotoStatement,
+        BoundErrorExpression
     }
 }
