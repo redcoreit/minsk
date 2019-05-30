@@ -74,6 +74,10 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
                     {
                         return RewriteAssignmentExpression(((BoundAssignmentExpression)node));
                     }
+                case BoundNodeKind.BoundErrorExpression:
+                    {
+                        return node;
+                    }
                 default:
                     throw new Exception($"Unexpected node kind. BoundNodeKind:{node.Kind}");
             }
@@ -83,7 +87,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
         {
             var condition = RewriteExpression(node.Condition);
 
-            if(condition != node.Condition)
+            if (condition != node.Condition)
             {
                 return new BoundConditionalGotoStatement(node.Label, condition, node.JumpIf);
             }
