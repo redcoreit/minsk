@@ -97,6 +97,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
 
         private static string GetText(BoundNode node)
         {
+            // TODO (R) Bug EP10: >for throws error because of Op is null.
             switch (node)
             {
                 case BoundBinaryExpression expression:

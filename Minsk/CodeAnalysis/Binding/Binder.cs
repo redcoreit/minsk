@@ -84,18 +84,10 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
         {
             var lowerBound = BindExpression(syntax.LowerBound, TypeSymbol.Int);
             var upperBound = BindExpression(syntax.UpperBound, TypeSymbol.Int);
-            var name = syntax.Identifier.Text;
-
-            // TODO (R) isReadOnly: true by Immo
-            var variable = new VariableSymbol(name, false, TypeSymbol.Int);
-
             _scope = new BoundScope(_scope);
 
-            if (!_scope.TryDeclare(variable))
-            {
-                _diagnostics.ReportVariableAlreadyDeclared(syntax.Identifier.Span, name);
-            }
-
+            // TODO (R) isReadOnly: true by Immo
+            var variable = DeclareVariable(syntax.Identifier, TypeSymbol.Int, false);
             var statement = BindStatement(syntax.Statement);
 
             _scope = _scope.Parent;
@@ -122,15 +114,10 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
 
         private BoundStatement BindVariableDeclaration(VariableDeclarationSyntax syntax)
         {
-            var name = syntax.Identifier.Text;
             var isReadOnly = syntax.Keyword.Kind == SyntaxKind.LetKeyword;
             var initializer = BindExpression(syntax.Initializer);
-            var variable = new VariableSymbol(name, isReadOnly, initializer.Type);
 
-            if (!_scope.TryDeclare(variable))
-            {
-                _diagnostics.ReportVariableAlreadyDeclared(syntax.Identifier.Span, name);
-            }
+            var variable = DeclareVariable(syntax.Identifier, initializer.Type, isReadOnly);
 
             return new BoundVariableDeclaration(variable, initializer);
         }
@@ -161,7 +148,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
         {
             var expression = BindExpression(syntax);
 
-            if (expression.Type != expectedType)
+            if (expectedType != TypeSymbol.Error && expression.Type != TypeSymbol.Error && expression.Type != expectedType)
             {
                 _diagnostics.ReportCannotConvert(syntax.Span, expression.Type, expectedType);
             }
@@ -279,6 +266,18 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
             }
 
             return new BoundAssignmentExpression(variable, boundExpression);
+        }
+
+        private VariableSymbol DeclareVariable(SyntaxToken identifier, TypeSymbol type, bool isReadOnly)
+        {
+            var name = identifier.Text ?? "?";
+            var variable = new VariableSymbol(name, isReadOnly, type);
+            if (!identifier.IsMissing && !_scope.TryDeclare(variable))
+            {
+                _diagnostics.ReportVariableAlreadyDeclared(identifier.Span, name);
+            }
+
+            return variable;
         }
     }
 }

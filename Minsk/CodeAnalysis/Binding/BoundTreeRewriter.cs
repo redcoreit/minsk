@@ -76,11 +76,16 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
                     }
                 case BoundNodeKind.BoundErrorExpression:
                     {
-                        return node;
+                        return RewriteErrorExpression(((BoundErrorExpression)node));
                     }
                 default:
                     throw new Exception($"Unexpected node kind. BoundNodeKind:{node.Kind}");
             }
+        }
+
+        private BoundExpression RewriteErrorExpression(BoundErrorExpression node)
+        {
+            return node;
         }
 
         protected virtual BoundStatement RewriteConditionalGotoStatement(BoundConditionalGotoStatement node)

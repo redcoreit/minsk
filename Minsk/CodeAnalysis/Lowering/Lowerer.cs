@@ -44,7 +44,7 @@ namespace Minsk.CodeAnalysis.Lowering
             var upperBoundExpression = new BoundVariableExpression(upperBoundSymbol);
             var variableDeclaration = new BoundVariableDeclaration(node.Variable, node.LowerBound); // LowerBound shouldn't be rewriten?
             var variableExpression = new BoundVariableExpression(node.Variable);
-            var conditionOperator = BoundBinaryOperator.Bind(SyntaxKind.LessToken, node.Variable.Type, node.UpperBound.Type);
+            var conditionOperator = BoundBinaryOperator.Bind(SyntaxKind.LessToken, TypeSymbol.Int, TypeSymbol.Int);
             var condition = new BoundBinaryExpression(variableExpression, conditionOperator, upperBoundExpression); // UpperBound shouldn't be rewriten?
 
             var incrementOperator = BoundBinaryOperator.Bind(SyntaxKind.PlusToken, node.Variable.Type, TypeSymbol.Int);
