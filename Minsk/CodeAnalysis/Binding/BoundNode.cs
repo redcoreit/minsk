@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Minsk.CodeAnalysis.Binding;
 using Minsk.CodeAnalysis.Symbols;
 
 namespace Minsk.CodeAnalysis.Syntax.Binding
@@ -135,7 +136,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
                         value = v.Name;
                     }
 
-                    if(value is LabelSymbol l)
+                    if(value is LabelTag l)
                     {
                         value = l.Name;
                     }

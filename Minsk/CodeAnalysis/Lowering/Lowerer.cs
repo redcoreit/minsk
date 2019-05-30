@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Minsk.CodeAnalysis.Binding;
 using Minsk.CodeAnalysis.Symbols;
 using Minsk.CodeAnalysis.Syntax;
 using Minsk.CodeAnalysis.Syntax.Binding;
@@ -151,6 +152,6 @@ namespace Minsk.CodeAnalysis.Lowering
             return new BoundBlockStatement(statements.ToImmutable());
         }
 
-        private LabelSymbol GenerateLabel() => new LabelSymbol($"Label{_labelCount++}");
+        private LabelTag GenerateLabel() => new LabelTag($"Label{_labelCount++}");
     }
 }

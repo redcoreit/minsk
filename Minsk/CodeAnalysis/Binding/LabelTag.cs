@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 
-namespace Minsk.CodeAnalysis.Symbols
+namespace Minsk.CodeAnalysis.Binding
 {
-    public sealed class LabelSymbol
+    internal sealed class LabelTag
     {
-        internal LabelSymbol(string name)
+        internal LabelTag(string name)
         {
             Name = name;
         }
