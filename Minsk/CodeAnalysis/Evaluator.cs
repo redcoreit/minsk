@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Minsk.CodeAnalysis.Syntax.Binding;
 using Minsk.CodeAnalysis.Symbols;
+using Minsk.CodeAnalysis.Binding;
 
 namespace Minsk.CodeAnalysis
 {
@@ -223,9 +224,9 @@ namespace Minsk.CodeAnalysis
             }
         }
 
-        private IReadOnlyDictionary<LabelSymbol, int> BuildLableInstructionIndexLookup()
+        private IReadOnlyDictionary<LabelTag, int> BuildLableInstructionIndexLookup()
         {
-            var lookup = new Dictionary<LabelSymbol, int>();
+            var lookup = new Dictionary<LabelTag, int>();
 
             var index = 0;
             foreach (var statement in _root.Statements)
