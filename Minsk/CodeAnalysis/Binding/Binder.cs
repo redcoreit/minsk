@@ -226,7 +226,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
         {
             var name = syntax.IdentifierToken.Text;
 
-            if (string.IsNullOrEmpty(name))
+            if (syntax.IdentifierToken.IsMissing)
             {
                 // This means the token was inserted by the parser.
                 // We already reported error so we can just return an error expression.
@@ -244,6 +244,11 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
 
         private BoundExpression BindAssignmentExpression(AssignmentExpressionSyntax syntax)
         {
+            if(syntax.IdentifierToken.IsMissing)
+            {
+                throw new NotSupportedException();
+            }
+
             var name = syntax.IdentifierToken.Text;
             var boundExpression = BindExpression(syntax.Expression);
 
