@@ -1,4 +1,5 @@
 using System;
+using Minsk.CodeAnalysis.Symbols;
 
 namespace Minsk.CodeAnalysis.Syntax.Binding
 {
@@ -11,7 +12,7 @@ namespace Minsk.CodeAnalysis.Syntax.Binding
             Right = right;
         }
 
-        public override Type Type => Op.Type;
+        public override TypeSymbol Type => Op.Type;
         public override BoundNodeKind Kind => BoundNodeKind.BinaryExpression;
         public BoundExpression Left { get; }
         public BoundBinaryOperator Op { get; }

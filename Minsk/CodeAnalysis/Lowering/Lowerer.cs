@@ -47,7 +47,7 @@ namespace Minsk.CodeAnalysis.Lowering
             var conditionOperator = BoundBinaryOperator.Bind(SyntaxKind.LessToken, node.Variable.Type, node.UpperBound.Type);
             var condition = new BoundBinaryExpression(variableExpression, conditionOperator, upperBoundExpression); // UpperBound shouldn't be rewriten?
 
-            var incrementOperator = BoundBinaryOperator.Bind(SyntaxKind.PlusToken, node.Variable.Type, typeof(int));
+            var incrementOperator = BoundBinaryOperator.Bind(SyntaxKind.PlusToken, node.Variable.Type, TypeSymbol.Int);
             var increment = new BoundBinaryExpression(variableExpression, incrementOperator, new BoundLiteralExpression(1));
             var incrementAssignment = new BoundAssignmentExpression(node.Variable, increment);
             var incrementStatement = new BoundExpressionStatement(incrementAssignment);
